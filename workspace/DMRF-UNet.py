@@ -24,7 +24,7 @@ test_data = []
 test_mask1 = []
 test_mask2 = []
 
-Load data
+# Load data
 for i in range(N_class):
     for j in range(N_train[i]):
         x = mpimg.imread('./dataset/data/%d/%d.png'%(i+1, j+1))
@@ -114,9 +114,8 @@ def bottleneck2(x, filters, kernel_size=(3, 3), padding="same", strides=1):
     c = keras.layers.Conv2D(filters, kernel_size, padding=padding, strides=strides, activation="relu")(c)
     return c
 
-def unet_scale_square():
+def DMRF_UNet():
 
-    # UNet
     f0 = 64
     f = [f0, f0*2, f0*4, f0*8, f0*16]
     inputs = keras.layers.Input((image_sizeX, image_sizeY, 1))
@@ -140,7 +139,6 @@ def unet_scale_square():
 
     #### model_2
     pp0 = keras.layers.Concatenate()([output_1, inputs])
-    # pp0 = output_1
     cc1, pp1 = down_block2(pp0, f[0])
     cc2, pp2 = down_block2(pp1, f[1])
     cc3, pp3 = down_block2(pp2, f[2])
@@ -164,7 +162,7 @@ def get_lr_metric(optimizer):
         return optimizer.lr
     return lr
 
-model = unet_scale_square()
+model = DMRF_UNet()
 model.summary()
 
 total_epoch = 100
