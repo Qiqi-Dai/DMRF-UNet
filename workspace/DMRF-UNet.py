@@ -176,8 +176,8 @@ lr_metric = get_lr_metric(Adam)
 model.compile(optimizer=Adam, loss=['mse', 'mse'], loss_weights=[alpha, beta], metrics=['mae'])
 model_checkpoint = keras.callbacks.ModelCheckpoint(model_path, monitor='val_loss', verbose=1, save_best_only=True)
 lr_checkpoint = keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.95, patience=2, min_lr=0)
-history = model.fit(x=train_data, y=train_mask1, batch_size=batch_size, epochs=total_epoch, verbose=2, \
-    validation_data=(test_data, test_mask1), callbacks=[model_checkpoint])
+history = model.fit(x=train_data, y=[train_mask1, train_mask2], batch_size=batch_size, epochs=total_epoch, verbose=2, \
+    validation_data=(test_data, [test_mask1, test_mask2]), callbacks=[model_checkpoint])
 
 # Testing
 model.load_weights(model_path)
